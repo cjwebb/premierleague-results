@@ -4,6 +4,9 @@ Scraping English Premier League website to retrieve match results.
 
 This is very much a work in progress, so please don't complain too much if the code is terrible, or it doesn't work.
 
+Also, most of the idea is taken from [a talk by Mark Needham](
+http://datasciencelondon.org/exploring-football-data-ranking-teams-using-clojure-and-friends-by-mark-needham/)
+
 ## Usage
 
 Clone project, and follow rough comments in `make_url.clj`. If you change the `project.clj` to use that file as the main class, you can then do `lein run > urls.txt` to generate all the webpages we will get results from.
