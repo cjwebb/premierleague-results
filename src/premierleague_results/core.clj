@@ -37,17 +37,32 @@
   (fn [m]
     (= value (m key))))
 
-(defn home-team [team-name number-of-results]
-  "Retrieves home matches for specified team, and takes number-of-results"
-  (->> (all-matches)
-       (filter (has-value :home-team team-name))
-       (take number-of-results)))
+(defn contains-team [value]
+  "Returns a predicate that tests whether a map contains a value in :home-team or :away-team"
+  (fn [m]
+    (or (= value (m :home-team))
+        (= value (m :away-team)))))
 
-(defn away-team [team-name number-of-results]
-  "Retrieves away matches for specified team, and takes number-of-results"
+; Example functions that can be written:
+(defn home-team [team-name]
+  "Retrieves home matches for specified team"
   (->> (all-matches)
-       (filter (has-value :away-team team-name))
-       (take number-of-results)))
+       (filter (has-value :home-team team-name))))
+
+(defn away-team [team-name]
+  "Retrieves away matches for specified team"
+  (->> (all-matches)
+       (filter (has-value :away-team team-name))))
+
+(defn team [team-name]
+  "Retrieves all matches for a specified team"
+  (->> (all-matches)
+       (filter (contains-team team-name))))
+
+(defn head-to-head [team1 team2]
+  (->> (all-matches)
+       (filter (contains-team team1))
+       (filter (contains-team team2))))
 
 (defn -main
   [& args]

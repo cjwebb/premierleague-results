@@ -26,9 +26,9 @@ With your resources directory full, open up a `lein repl`.
     premierleague-results.core=> (take 1 (all-matches))
     ({:date "Tuesday 15 April 2014", :location "Emirates Stadium", :away-team "West Ham", :score "3 - 1", :home-team "Arsenal", :time "19:45"})
 
-You can find the last 2 home-team games using `home-team`. The `away-team` function also exists. They need refactoring though.
+You can find the last 2 home-team games using `home-team`. The `away-team` function also exists.
 
-    premierleague-results.core=> (home-team "Arsenal" 2)
+    premierleague-results.core=> (take 2 (home-team "Arsenal"))
     ({:date "Tuesday 15 April 2014", :location "Emirates Stadium", :away-team "West Ham", :score "3 - 1", :home-team "Arsenal", :time "19:45"} {:date "Saturday 29 March 2014", :location "Emirates Stadium", :away-team "Man City", :score "1 - 1", :home-team "Arsenal", :time "17:30"})
 
 ### Bugs
