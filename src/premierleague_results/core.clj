@@ -64,6 +64,30 @@
        (filter (contains-team team1))
        (filter (contains-team team2))))
 
+; Functions that retrieve the win/loss/draw aspect of matches
+(defn- match-scores [s]
+  "For a string, such as '2-1' evaluates home/away win, based on home-score first"
+  (let [home-score (Integer/parseInt (str (first s)))
+        away-score (Integer/parseInt (str (last s)))]
+    {:home-score home-score :away-score away-score}))
+
+(defn team-result [match]
+  "For a match, evaluates W/D/L for both home and away teams"
+  (let [result (result (match-scores (:score match)))
+        home-team (:home-team match)
+        away-team (:away-team match)]
+    (cond
+      (= result :home-win) {home-team "W" away-team "L"}
+      (= result :away-win) {home-team "L" away-team "W"}
+      :else {home-team "D" away-team "D"})))
+
+(defn result [m]
+  "Returns an abstract version of result, home-win, away-win or draw"
+  (cond
+    (= (:home-score m)(:away-score m)) :draw
+    (> (:home-score m)(:away-score m)) :home-win
+    :else :away-win))
+
 (defn -main
   [& args]
 
