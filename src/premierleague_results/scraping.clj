@@ -1,10 +1,5 @@
 (ns premierleague-results.scraping
-  (:require [net.cgrand.enlive-html :as html]
-            [clojurewerkz.neocons.rest :as nr]
-            [clojurewerkz.neocons.rest.nodes :as nn]
-            [clojurewerkz.neocons.rest.relationships :as nrl]
-            [clojurewerkz.neocons.rest.labels :as nl]
-            [clojurewerkz.neocons.rest.constraints :as nc])
+  (:require [net.cgrand.enlive-html :as html])
   (:gen-class))
 
 (defn- fetch-file [name]
