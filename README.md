@@ -35,7 +35,14 @@ You can find the last 2 home-team games using `home-team`. The `away-team` funct
 The `team-result` function evaluates Win/Loss/Draw for a match:
 
     premierleague-results.core=> (take 2 (map team-result (all-matches)))
-    ({"Arsenal" "W", "West Ham" "L"} {"Swansea" "L", "Chelsea" "W"})
+    ({"Arsenal" :w, "West Ham" :w} {"Swansea" :l, "Chelsea" :w})
+
+There are also functions that build upon `team-result`, such as `form-summary`
+
+    premierleague-results.core=> (into (sorted-map)
+                                       (form-summary (map team-result (all-matches))))
+
+    {"Arsenal" {:d 221, :l 167, :w 456}, "Aston Villa" {:d 258, :l 283, :w 302}, ... and so on for all teams
 
 
 ### Bugs

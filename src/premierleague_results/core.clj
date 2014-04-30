@@ -71,22 +71,35 @@
         away-score (Integer/parseInt (str (last s)))]
     {:home-score home-score :away-score away-score}))
 
+(defn- result [m]
+  "Returns an abstract version of result, home-win, away-win or draw"
+  (cond
+    (= (:home-score m)(:away-score m)) :draw
+    (> (:home-score m)(:away-score m)) :home-win
+    :else :away-win))
+
 (defn team-result [match]
   "For a match, evaluates W/D/L for both home and away teams"
   (let [result (result (match-scores (:score match)))
         home-team (:home-team match)
         away-team (:away-team match)]
     (cond
-      (= result :home-win) {home-team "W" away-team "L"}
-      (= result :away-win) {home-team "L" away-team "W"}
-      :else {home-team "D" away-team "D"})))
+      (= result :home-win) {home-team :w away-team :l}
+      (= result :away-win) {home-team :l away-team :w}
+      :else {home-team :d away-team :d})))
 
-(defn result [m]
-  "Returns an abstract version of result, home-win, away-win or draw"
-  (cond
-    (= (:home-score m)(:away-score m)) :draw
-    (> (:home-score m)(:away-score m)) :home-win
-    :else :away-win))
+; Functions that build upon team-result data
+(defn- update-form-map [coll team result]
+  (if (get-in coll [team result])
+    (update-in coll [team result] inc)
+    (assoc-in coll [team result] 1)))
+
+(defn- update-or-assoc-form [coll x]
+  (let [teams (keys x)]
+    (reduce #(update-form-map %1 %2 (get x %2)) coll teams)))
+
+(defn form-summary [team-results]
+  (reduce update-or-assoc-form {} team-results))
 
 (defn -main
   [& args]
