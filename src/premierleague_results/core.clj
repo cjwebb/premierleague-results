@@ -67,7 +67,7 @@
        (filter (contains-team team2))))
 
 ; Functions that retrieve the win/loss/draw aspect of matches
-(defn- match-scores [s]
+(defn match-scores [s]
   "For a string, such as '2-1' evaluates home/away win, based on home-score first"
   (let [home-score (Integer/parseInt (str (first s)))
         away-score (Integer/parseInt (str (last s)))]
