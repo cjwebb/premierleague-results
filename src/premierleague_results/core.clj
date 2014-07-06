@@ -1,5 +1,7 @@
 (ns premierleague-results.core
-  (:use [premierleague-results.scraping :as scraping]))
+  (:use [premierleague-results.scraping :as scraping])
+  (:require
+    [clojure.algo.generic.functor :as f]))
 
 (def all-files
   "List all files in resources directory. There is probably a better way of doing this!"
@@ -100,6 +102,18 @@
 
 (defn form-summary [team-results]
   (reduce update-or-assoc-form {} team-results))
+
+(defn- count-occurences [coll]
+  "Counts occurences of all the things in a collection
+    http://clj-me.cgrand.net/index.php?s=Counting%20occurences"
+  (reduce #(assoc %1 %2 (inc (%1 %2 0))) {} coll))
+
+(defn win-draw-loss-averages [n]
+  "Gets number of home-wins, away-wins and draws for last n games"
+  (->> (take n (all-matches))
+       (map #(result (match-scores (:score %))))
+       (count-occurences)
+       (f/fmap #(float (/ % n)))))
 
 (defn -main
   [& args]
